@@ -66,3 +66,31 @@ Prazo de Entrega 1: 26-mar (5 pt) | Prazo de Entrega 2: 02-abr (3 pt)
 ```
 
 OBS: É necessário que todos os exercícios estejam concluídos até um dia antes da apresentação do projeto pessoal. Caso o aluno não tenha completado os exercícios, terá -3 pontos na nota Qualitativa.
+
+## NÍVEL PARA DESENVOLVIMENTO DAS PROJETOS DE PROGRAMAÇÃO WEB
+O nível foi baseado na entrega de projetos de exercício e projetos pessoais do 1º bimestre em Programação Web.
+
+- Nível 1: Alunos que entregaram até 2 projetos - até o último prazo - e fecharam no mínimo as notas 1 e 4 no projeto pessoal.
+- Nível 2: Aluno que entregaram de 3 à 4 projetos - até o último prazo - e fecharam no mínimo as notas 2 e 3 no projeto pessoal.
+
+A partir do dia 29-abr, os alunos deverão desenvolver os projetos pessoais de acordo com o seu nível da tabela abaixo. O nível poderá mudar a qualquer momento dependendo da evolução.
+
+|Nível 1          | Nível 2             |
+|-----------------|---------------------|
+|ANGELA KYARA     |ANA DAVILA           |
+|CAIO VICTOR      |ANDRE RYAN           |
+|CARLOS RENAN     |ARISTIDES ALVES      |
+|EDIGAR CHAVES    |DAVYSON LEVI         |
+|ERYCK FERNANDO   |FCO ENZO             |
+|FCO BRUNO        |FCO TAISLAN          |
+|ANA DELLY        |JOAO EMANOEL         |
+|ISABELLE LOPES   |JOAO MATEUS          |
+|LUIS FERNANDO    |JOAO PAULO           |
+|MARIA LARISSA    |JOAO VICTOR          |
+|PEDRO HENRIQUE   |JOSE HENRIQUE        |
+|PEDRO JUAN       |KAUAN GOMES          |
+|REBEKA MARIA     |KEIRRYSON RAFFAEL    |
+|SAMUEL RIBEIRO   |LUCIVANIA BEZERRA    |
+|STEFANY ALVES    |LUIS GUILHERME       |
+|THAIRES SOUSA    |MARIO PIETRO         |
+|WANESSA PEREIRA  |                     |
