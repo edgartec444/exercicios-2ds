@@ -1,11 +1,11 @@
 class Animal {
     constructor(nome, especie) {
-        this.nome = nome
-        this.especie = especie
+        this.nome = nome;
+        this.especie = especie;
     }
 }
 
-const rex = new Animal("Rex", "Cachorro")
-const mimi = new Animal("Mimi", "Gato")
+const animal1 = new Animal("Rex", "Cachorro");
+const animal2 = new Animal("Mimi", "Gato");
 
-module.exports = [rex, mimi]
+module.exports = [animal1, animal2];
