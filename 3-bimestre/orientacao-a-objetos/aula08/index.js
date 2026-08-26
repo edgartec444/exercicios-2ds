@@ -10,4 +10,6 @@ class Cofre {
     }
 }
 
-module.exports = Cofre;
+const cofre = new Cofre("1234");
+
+module.exports = cofre;

@@ -12,6 +12,4 @@ class Usuario {
 
 const usuario = new Usuario("John")
 
-console.log(usuario.nome)
-
-console.log(usuario.nome)
+module.exports = usuario
