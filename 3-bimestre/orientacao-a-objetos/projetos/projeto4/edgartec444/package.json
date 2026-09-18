@@ -1,7 +1,7 @@
 {
-  "name": "projeto4",
+  "name": "projeto-academia-fitness",
   "version": "1.0.0",
-  "description": "",
+  "description": "Projeto 4 - Academia Fitness",
   "main": "index.js",
   "scripts": {
     "test": "jest"
