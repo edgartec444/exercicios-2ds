@@ -27,7 +27,6 @@ class Hidraulico extends Laudo {
 }
 
 module.exports = Laudo
-
 module.exports.Estrutural = Estrutural
 module.exports.Eletrico = Eletrico
 module.exports.Hidraulico = Hidraulico

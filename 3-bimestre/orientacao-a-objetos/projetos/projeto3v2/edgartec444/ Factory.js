@@ -1,11 +1,8 @@
 const Laudo = require("./Laudo")
 
 class Factory {
-
     static criar(tipo, responsavel) {
-
         switch (tipo) {
-
             case "estrutural":
                 return new Laudo.Estrutural(responsavel)
 
