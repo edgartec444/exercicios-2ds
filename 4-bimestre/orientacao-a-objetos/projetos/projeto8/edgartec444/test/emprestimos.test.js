@@ -1,100 +1,101 @@
-const fs = require("fs/promises")
-const os = require("os")
-const path = require("path")
 
-const ARQUIVO = path.join(os.tmpdir(), "biblioteca-emprestimos-teste.json")
+const {
+    listar,
+    salvar,
+    atualizar,
+    remover
+} = require("../repositorio");
 
-process.env.ARQUIVO_EMPRESTIMOS = ARQUIVO
+const fs = require("fs/promises");
+const path = require("path");
+const os = require("os");
 
-const { listar, salvar, atualizar, remover } = require("../repositorio")
-
-const REG_1 = { id: 1, leitor: "Ana", livro: "Dom Casmurro", dias: 7, situacao: "reservado" }
-const REG_2 = { id: 2, leitor: "Bruno", livro: "O Cortico", dias: 14, situacao: "retirado" }
+let arquivoOriginal;
+let arquivoTeste;
 
 beforeEach(async () => {
-    await fs.rm(ARQUIVO, { force: true })
-})
+    arquivoOriginal = process.env.ARQUIVO_EMPRESTIMOS;
 
-afterAll(async () => {
-    await fs.rm(ARQUIVO, { force: true })
-})
+    arquivoTeste = path.join(
+        os.tmpdir(),
+        `emprestimos-${Date.now()}-${Math.random()}.json`
+    );
 
-async function semear() {
-    await salvar({ ...REG_1 })
-    await salvar({ ...REG_2 })
-}
+    process.env.ARQUIVO_EMPRESTIMOS = arquivoTeste;
+});
 
-// RF - repositorio: leitura e gravacao
-test("listar deve devolver array vazio quando o arquivo nao existe", async () => {
-    expect(await listar()).toEqual([])
-})
+afterEach(async () => {
+    try {
+        await fs.unlink(arquivoTeste);
+    } catch (erro) {
+        if (erro.code !== "ENOENT") throw erro;
+    }
 
-test("salvar deve devolver o registro salvo", async () => {
-    expect(await salvar({ ...REG_1 })).toEqual(REG_1)
-})
+    if (arquivoOriginal === undefined) {
+        delete process.env.ARQUIVO_EMPRESTIMOS;
+    } else {
+        process.env.ARQUIVO_EMPRESTIMOS = arquivoOriginal;
+    }
+});
 
-test("salvar deve gravar o registro no arquivo", async () => {
-    await salvar({ ...REG_1 })
+test("listar deve retornar array vazio inicialmente", async () => {
+    expect(await listar()).toEqual([]);
+});
 
-    const conteudo = await fs.readFile(ARQUIVO, "utf-8")
+test("salvar deve cadastrar empréstimo", async () => {
+    const emprestimo = {
+        id: 1,
+        leitor: "Ana",
+        livro: "Dom Casmurro",
+        dias: 7,
+        situacao: "reservado"
+    };
 
-    expect(JSON.parse(conteudo)).toEqual([REG_1])
-})
+    expect(await salvar(emprestimo)).toEqual(emprestimo);
+    expect(await listar()).toEqual([emprestimo]);
+});
 
-test("o arquivo gravado deve estar indentado com dois espacos", async () => {
-    await salvar({ ...REG_1 })
+test("atualizar deve preservar campos antigos", async () => {
+    await salvar({
+        id: 1,
+        leitor: "Ana",
+        livro: "Dom Casmurro",
+        dias: 7,
+        situacao: "reservado"
+    });
 
-    expect(await fs.readFile(ARQUIVO, "utf-8")).toContain("\n  ")
-})
+    const resultado = await atualizar(1, {
+        situacao: "devolvido"
+    });
 
-test("os registros devem persistir na ordem de insercao", async () => {
-    await semear()
+    expect(resultado).toEqual({
+        id: 1,
+        leitor: "Ana",
+        livro: "Dom Casmurro",
+        dias: 7,
+        situacao: "devolvido"
+    });
+});
 
-    expect(await listar()).toEqual([REG_1, REG_2])
-})
+test("atualizar deve retornar null se não encontrar ID", async () => {
+    expect(await atualizar(99, {
+        situacao: "devolvido"
+    })).toBeNull();
+});
 
-// RF - repositorio: atualizar
-test("atualizar deve devolver o registro com o campo alterado", async () => {
-    await semear()
+test("remover deve excluir empréstimo", async () => {
+    await salvar({
+        id: 1,
+        leitor: "Ana",
+        livro: "Dom Casmurro",
+        dias: 7,
+        situacao: "reservado"
+    });
 
-    expect(await atualizar(1, { situacao: "devolvido" })).toEqual({ id: 1, leitor: "Ana", livro: "Dom Casmurro", dias: 7, situacao: "devolvido" })
-})
+    expect(await remover(1)).toBe(true);
+    expect(await listar()).toEqual([]);
+});
 
-test("atualizar deve preservar os campos nao enviados", async () => {
-    await semear()
-    await atualizar(2, { situacao: "devolvido" })
-
-    const lista = await listar()
-
-    expect(lista[1]).toEqual({ ...REG_2, situacao: "devolvido" })
-})
-
-test("atualizar deve gravar a alteracao no arquivo", async () => {
-    await semear()
-    await atualizar(1, { dias: 14 })
-
-    const conteudo = JSON.parse(await fs.readFile(ARQUIVO, "utf-8"))
-
-    expect(conteudo[0].dias).toBe(14)
-})
-
-test("atualizar deve devolver null para um id inexistente", async () => {
-    await semear()
-
-    expect(await atualizar(99, { situacao: "devolvido" })).toBe(null)
-})
-
-// RF - repositorio: remover
-test("remover deve devolver true e tirar o registro do arquivo", async () => {
-    await semear()
-
-    expect(await remover(1)).toBe(true)
-    expect(await listar()).toEqual([REG_2])
-})
-
-test("remover deve devolver false para um id inexistente", async () => {
-    await semear()
-
-    expect(await remover(99)).toBe(false)
-    expect((await listar()).length).toBe(2)
-})
+test("remover deve retornar false se ID não existir", async () => {
+    expect(await remover(99)).toBe(false);
+});

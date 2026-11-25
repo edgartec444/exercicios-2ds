@@ -1,8 +1,9 @@
+
 {
-  "name": "projeto8-edgartec444",
+  "name": "biblioteca-emprestimos",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Sistema de emprestimos da biblioteca com persistencia em arquivo JSON",
+  "main": "repositorio.js",
   "scripts": {
     "test": "jest"
   },
@@ -11,6 +12,6 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
-    "jest": "^30.5.2"
+    "jest": "^30.0.0"
   }
 }
